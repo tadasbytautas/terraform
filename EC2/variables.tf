@@ -12,3 +12,11 @@ variable "key_name" {
   description = "This variable state key pair name"
   default     = "AWSQA"
 }
+
+variable "subnet_id" {
+  description = "subnet id for ec2"
+}
+
+variable "vpc_security_group_ids" {
+  description = "SG for VPC"
+}
