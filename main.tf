@@ -27,7 +27,7 @@ resource "aws_instance" "web" {
   key_name                    = var.key_name
   subnet_id                   = aws_subnet.subnet_a.id
   associate_public_ip_address = true
-  vpc_security_group_ids = ["${aws_security_group.allow_tls.id}"]
+  vpc_security_group_ids      = ["${aws_security_group.allow_tls.id}"]
 }
 
 resource "aws_route_table" "route" {
@@ -55,7 +55,7 @@ resource "aws_internet_gateway" "gw" {
 resource "aws_security_group" "allow_tls" {
   name        = "allow_tls"
   description = "Allow TLS inbound traffic"
-  vpc_id      = aws_vpc.vpc.id  
+  vpc_id      = aws_vpc.vpc.id
 
   ingress {
     description = "TLS from VPC"
@@ -76,3 +76,29 @@ resource "aws_security_group" "allow_tls" {
     Name = "allow_tls"
   }
 }
+
+# resource "aws_security_group" "sg_web" {
+#   name var.sg_web_name
+#   description = var.sg_web_description
+
+#   vpc_id = aws_vpc.vpc.id
+
+#   dynamic "ingress" {
+#     iterator = protocol
+#     for_each = var.ingress_ports
+#     content {
+#       from_port = port.value
+#       protocol = "tcp"
+#       to_port = port.value
+#       cidr_block = [var.open_internet]
+
+#     }
+#   }
+
+#   egress {
+#     from_port   = 0
+#     to_port     = 0
+#     protocol    = "-1"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+# }
